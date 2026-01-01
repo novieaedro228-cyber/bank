@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Bank</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <div>Загрузка банка...</div>
+    </div>
+    
+    <div id="app" class="hidden">
+        <!-- Шапка -->
+        <div class="header">
+            <h1>Telegram Bank</h1>
+            <p>Ваш личный банк в Telegram</p>
+        </div>
+        
+        <div class="container">
+            <!-- Дашборд -->
+            <div id="dashboard-page" class="page">
+                <div class="balance-card card">
+                    <div class="balance-label">Ваш баланс</div>
+                    <div class="balance-amount" id="balance-amount">0₽</div>
+                    <div class="btn-group">
+                        <button class="btn btn-secondary" id="quick-transfer">
+                            <span class="btn-icon">💸</span>
+                            Перевести
+                        </button>
+                        <button class="btn btn-secondary" id="quick-history">
+                            <span class="btn-icon">📊</span>
+                            История
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 style="margin-bottom: 16px;">Быстрые действия</h3>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="Telegram.WebApp.openLink('https://t.me/your_bot?start=click')">
+                            <span class="btn-icon">🖱</span>
+                            Кликнуть +10₽
+                        </button>
+                        <button class="btn btn-primary" onclick="Telegram.WebApp.openLink('https://t.me/your_bot?start=profile')">
+                            <span class="btn-icon">👤</span>
+                            Профиль
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Перевод -->
+            <div id="transfer-page" class="page hidden">
+                <div class="card">
+                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <button id="back-btn" style="background: none; border: none; font-size: 24px; margin-right: 12px; cursor: pointer;">←</button>
+                        <h2>Перевод средств</h2>
+                    </div>
+                    
+                    <form id="transfer-form">
+                        <div class="form-group">
+                            <label class="form-label" for="recipient">Получатель</label>
+                            <input type="text" 
+                                   id="recipient" 
+                                   class="form-input" 
+                                   placeholder="@username или ID пользователя"
+                                   required>
+                            <small style="color: var(--text-secondary); display: block; margin-top: 4px;">
+                                Введите Telegram username (например, @username) или ID пользователя
+                            </small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="amount">Сумма</label>
+                            <input type="number" 
+                                   id="amount" 
+                                   class="form-input" 
+                                   placeholder="100"
+                                   min="1"
+                                   required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            <span class="btn-icon">💸</span>
+                            Отправить перевод
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- История -->
+            <div id="history-page" class="page hidden">
+                <div class="card">
+                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <button id="back-btn" style="background: none; border: none; font-size: 24px; margin-right: 12px; cursor: pointer;">←</button>
+                        <h2>История операций</h2>
+                    </div>
+                    
+                    <div id="transactions-list" class="transactions-list">
+                        <!-- Транзакции будут загружены здесь -->
+                    </div>
+                    
+                    <button id="load-more" class="btn btn-secondary hidden" style="width: 100%; margin-top: 16px;">
+                        Загрузить еще
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Навигация -->
+        <div class="nav">
+            <div class="nav-container">
+                <div class="nav-item active" data-page="dashboard">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-text">Главная</span>
+                </div>
+                <div class="nav-item" data-page="transfer">
+                    <span class="nav-icon">💸</span>
+                    <span class="nav-text">Перевод</span>
+                </div>
+                <div class="nav-item" data-page="history">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">История</span>
+                </div>
+                <div class="nav-item" onclick="Telegram.WebApp.close()">
+                    <span class="nav-icon">❌</span>
+                    <span class="nav-text">Закрыть</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
